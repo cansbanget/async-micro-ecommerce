@@ -13,7 +13,7 @@ const CustomerController = {
     try {
       // Panggil User Service untuk memvalidasi userId
       const userResponse = await axios.get(
-        `${process.env.USER_SERVICE_URL}/api/users/${userId}`
+        `${process.env.USER_SERVICE_URL}/api/users/${userId}`,
       );
       if (userResponse.status !== 200 || !userResponse.data) {
         return res
@@ -26,7 +26,7 @@ const CustomerController = {
         name,
         email,
         phone,
-        address
+        address,
       );
 
       sendEvent(
@@ -36,8 +36,8 @@ const CustomerController = {
             id: customerId,
             name: name,
             email: email,
-          })
-        )
+          }),
+        ),
       );
       res
         .status(201)
@@ -45,7 +45,7 @@ const CustomerController = {
     } catch (error) {
       console.error(
         "Error creating customer:",
-        error.response ? error.response.data : error.message
+        error.response ? error.response.data : error.message,
       );
       res.status(500).json({
         message: "Error creating customer",
@@ -62,7 +62,7 @@ const CustomerController = {
         return res.status(404).json({ message: "Customer not found" });
       }
       const userResponse = await axios.get(
-        `${process.env.USER_SERVICE_URL}/api/users/${id}`
+        `${process.env.USER_SERVICE_URL}/api/users/${id}`,
       );
       const user = userResponse.data;
       res.status(200).json({
@@ -108,7 +108,7 @@ const CustomerController = {
         name,
         email,
         phone,
-        address
+        address,
       );
       if (affectedRows === 0) {
         return res
@@ -119,11 +119,11 @@ const CustomerController = {
         "UPDATE_CUSTOMER",
         Buffer.from(
           JSON.stringify({
-            id: customerId,
+            id: id,
             name: name,
             email: email,
-          })
-        )
+          }),
+        ),
       );
       res.status(200).json({ message: "Customer updated successfully" });
     } catch (error) {
